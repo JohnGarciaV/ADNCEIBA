@@ -1,0 +1,1 @@
+select count(1) from jugador where numero_identificacion = :numeroIdentificacion
