@@ -13,6 +13,7 @@ public class RepositorioJugadorMysql implements RepositorioJugador {
     private static final String NAMESPACE = "jugador";
     private static final String CREAR = "crearJugador";
     private static final String ACTUALIZAR = "actualizarJugador";
+    private static final String ACTUALIZARCALIFICACION = "actualizarCalificacionJugador";
     private static final String EXISTE = "existeJugador";
     private static final String EXISTE_TEMPORADA = "existeTemporada";
     private static final String CAMPO_NUMERO_IDENTIFICACION = "numeroIdentificacion";
@@ -23,6 +24,9 @@ public class RepositorioJugadorMysql implements RepositorioJugador {
 
     @SqlStatement(namespace= NAMESPACE, value=ACTUALIZAR)
     private static String sqlActualizar;
+
+    @SqlStatement(namespace= NAMESPACE, value=ACTUALIZARCALIFICACION)
+    private static String sqlActualizarCalificacion;
 
     @SqlStatement(namespace= NAMESPACE, value=EXISTE)
     private static String sqlExiste;
@@ -44,6 +48,11 @@ public class RepositorioJugadorMysql implements RepositorioJugador {
     @Override
     public void actualizar(Jugador jugador) {
         this.customNamedParameterJdbcTemplate.actualizar(jugador, sqlActualizar);
+    }
+
+    @Override
+    public void actualizarCalificacion(Jugador jugador) {
+        this.customNamedParameterJdbcTemplate.actualizar(jugador, sqlActualizarCalificacion);
     }
 
     @Override

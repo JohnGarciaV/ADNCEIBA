@@ -133,7 +133,7 @@ public class ServicioCalificarJugadorTest {
                 historial.getGoles()
         )).thenReturn(calificacion);
 
-        assertEquals(2.97, calificacion, 0.01);
+        assertEquals(2.6, calificacion, 0.01);
     }
 
     @Test

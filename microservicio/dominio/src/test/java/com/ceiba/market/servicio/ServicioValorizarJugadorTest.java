@@ -93,7 +93,7 @@ public class ServicioValorizarJugadorTest {
 
         servicioValorizarJugador.calcularValorizacion(jugador);
         // act - assert
-        assertEquals(jugador.getValorizacion(), 2.395E8);
+        assertEquals(jugador.getValorizacion(), "2.395E8");
     }
 
     @Test

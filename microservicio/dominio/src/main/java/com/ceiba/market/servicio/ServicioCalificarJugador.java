@@ -103,9 +103,9 @@ public class ServicioCalificarJugador {
     public Historial actualizarCalificacionJugador(Historial historial, Historial ultimoHistorial, Jugador jugador){
 
            Double calificacionActual = jugador.getCalificacion();
-           int minutos = historial.getMinutosJugados() + ultimoHistorial.getMinutosJugados();
-           int torneos = historial.getTorneoGanados() + ultimoHistorial.getTorneoGanados();
-           int goles = historial.getGoles() + ultimoHistorial.getGoles();
+           int minutos = historial.getMinutosJugados() + jugador.getMinutosJugados();
+           int torneos = historial.getTorneoGanados() + jugador.getTorneosGanados();
+           int goles = historial.getGoles() + jugador.getGoles();
            calificacionActual = calcularCalificacion(calificacionActual, minutos, torneos, goles);
 
            jugador.setCalificacion(calificacionActual);
@@ -113,10 +113,8 @@ public class ServicioCalificarJugador {
            jugador.setTorneosGanados(torneos);
            jugador.setGoles(goles);
 
-           Long id =  this.repositorioJugador.crear(jugador);
-           if( id <= 0L){
-               throw new ExcepcionNoDatoActualizado(JUGADOR_NO_ACTUALIZADO);
-           }
+            this.repositorioJugador.actualizarCalificacion(jugador);
+
             historial.setMinutosJugados(minutos);
             historial.setTorneoGanados(torneos);
             historial.setGoles(goles);

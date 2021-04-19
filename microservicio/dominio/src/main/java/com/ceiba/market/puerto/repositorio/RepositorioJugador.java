@@ -18,6 +18,12 @@ public interface RepositorioJugador {
     void actualizar(Jugador jugador);
 
     /**
+     * Permite actualizar calificacion de un Jugador
+     * @param jugador
+     */
+    void actualizarCalificacion(Jugador jugador);
+
+    /**
      * Permite validar si existe un jugador con un numeroDocumento
      * @param numeroDocumento
      * @return boolean
