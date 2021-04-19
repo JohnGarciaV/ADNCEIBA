@@ -1,6 +1,5 @@
 package com.ceiba.market.servicio;
 
-import com.ceiba.dominio.excepcion.ExcepcionNoDatoActualizado;
 import com.ceiba.dominio.excepcion.ExcepcionNoExiste;
 import com.ceiba.dominio.excepcion.ExcepcionNoExisteDato;
 import com.ceiba.dominio.excepcion.ExcepcionValorInvalido;
@@ -52,7 +51,7 @@ public class ServicioCalificarJugador {
     public Historial existeHistorial(Historial historial){
         List<DtoHistorial> listDtoHistorial = this.daoHistorial.listarPorNumeroDocumento(historial.getNumeroIdentificacion());
         Historial ultimoHistorial;
-        if(listDtoHistorial.size() > 0) {
+        if(!listDtoHistorial.isEmpty()) {
             DtoHistorial ultimoHistorialDto = listDtoHistorial.get(0);
              ultimoHistorial = new Historial(ultimoHistorialDto.getIdHistorial(),
                     ultimoHistorialDto.getNumeroIdentificacion(), ultimoHistorialDto.getValorTransferencia(),
@@ -86,7 +85,7 @@ public class ServicioCalificarJugador {
     public Jugador existeJugador(Historial historial){
         List<DtoJugador> listDtoJugador = this.daoJugador.listarPorNumeroDocumento(historial.getNumeroIdentificacion());
         Jugador jugador = null;
-        if(listDtoJugador.size() > 0){
+        if(!listDtoJugador.isEmpty()){
             DtoJugador dtoJugador = listDtoJugador.get(0);
 
              jugador = new Jugador(dtoJugador.getIdJugador(), dtoJugador.getNumeroIdentificacion(),

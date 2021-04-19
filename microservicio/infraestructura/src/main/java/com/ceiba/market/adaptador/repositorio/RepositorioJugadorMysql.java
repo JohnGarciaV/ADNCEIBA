@@ -19,7 +19,7 @@ public class RepositorioJugadorMysql implements RepositorioJugador {
     private static final String CAMPO_NUMERO_IDENTIFICACION = "numeroIdentificacion";
     private static final String CAMPO_FECHA_ACTUAL = "fechaActual";
 
-    @SqlStatement(namespace= NAMESPACE, value="crearJugador")
+    @SqlStatement(namespace= NAMESPACE, value=CREAR)
     private static String sqlCrear;
 
     @SqlStatement(namespace= NAMESPACE, value=ACTUALIZAR)

@@ -22,8 +22,7 @@ public class Jugador {
 
     public Jugador(Long idJugador, int numeroIdentificacion, int edad, String valorizacion, Double calificacion,
                    String fechaInicioTemporada, String fechaFinTemporada, String fechaValorizacion, String equipoFutbol,
-                   int minutosJugados, int torneosGanados,
-                   int goles) {
+                   int minutosJugados, int torneosGanados, int goles) {
 
         this.idJugador = idJugador;
         this.numeroIdentificacion = numeroIdentificacion;

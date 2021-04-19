@@ -10,7 +10,6 @@ import org.springframework.stereotype.Repository;
 public class RepositorioHistorialH2 implements RepositorioHistorial {
 
     private static final String NAMESPACE = "jugador";
-    private static final String CAMPO_NUMERO_IDENTIFICACION = "numeroIdentificacion";
 
     @SqlStatement(namespace= NAMESPACE, value="crearHistorial")
     private static String sqlCrear;

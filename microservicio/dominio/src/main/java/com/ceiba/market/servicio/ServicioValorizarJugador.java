@@ -58,7 +58,7 @@ public class ServicioValorizarJugador {
     public void validarFechaValorizacion(Jugador jugador){
 
         LocalDate fechaActual = LocalDate.now();
-        DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern(FORMATO_FECHA);
         String formatoFechaActual = formato.format(fechaActual);
         LocalDate fechaActualFormateada = LocalDate.parse(formatoFechaActual, formato);
         LocalDate fechaValorizacion = LocalDate.parse(jugador.getFechaValorizacion(), formato);
@@ -77,7 +77,7 @@ public class ServicioValorizarJugador {
         double valorGol = jugador.getGoles() * VALOR_GOL;
         double valorTorneos = jugador.getTorneosGanados() * VALOR_TORNEO_GANADO;
         double subValorizacion = valorMinutos + valorGol +valorTorneos;
-        double valorizacionActual = Double.valueOf(jugador.getValorizacion());
+        double valorizacionActual = Double.parseDouble(jugador.getValorizacion());
 
         valorizacion = subValorizacion + calcularValorizacionPorEdad(jugador.getEdad()) + valorizacionActual;
         jugador.setFechaValorizacion(formatoFechaActual);

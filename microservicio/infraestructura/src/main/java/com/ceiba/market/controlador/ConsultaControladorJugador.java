@@ -17,24 +17,23 @@ import java.util.List;
 @Api(tags={"Controlador consulta jugadores"})
 public class ConsultaControladorJugador {
 
-    private final ManejadorListarJugador ManejadorListarjugador;
-    private final ManejadorListarhistorial ManejadorListarhistorial;
+    private final ManejadorListarJugador manejadorListarJugador;
+    private final ManejadorListarhistorial manejadorListarHistorial;
 
-    public ConsultaControladorJugador(ManejadorListarJugador manejadorListarjugador,
-                                      ManejadorListarhistorial manejadorListarhistorial) {
-        ManejadorListarjugador = manejadorListarjugador;
-        ManejadorListarhistorial = manejadorListarhistorial;
+    public ConsultaControladorJugador(ManejadorListarJugador manejadorListarJugador, ManejadorListarhistorial manejadorListarHistorial) {
+        this.manejadorListarJugador = manejadorListarJugador;
+        this.manejadorListarHistorial = manejadorListarHistorial;
     }
 
     @GetMapping
     @ApiOperation("Listar Jugadores")
     public List<DtoJugador> listar() {
-        return this.ManejadorListarjugador.ejecutar();
+        return this.manejadorListarJugador.ejecutar();
     }
 
     @GetMapping("/historial")
     @ApiOperation("Listar Historial")
     public List<DtoHistorial> listarHistorial() {
-        return this.ManejadorListarhistorial.ejecutar();
+        return this.manejadorListarHistorial.ejecutar();
     }
 }

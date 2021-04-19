@@ -17,8 +17,4 @@ public class ManejadorListarhistorial {
 
     public List<DtoHistorial> ejecutar(){ return this.daoHistorial.listar(); }
 
-    /*public List<DtoJugador> ejecutar(int numeroDocumento){
-        return this.daoHistorial.listarPorNumeroDocumento(numeroDocumento);
-    }*/
-
 }
