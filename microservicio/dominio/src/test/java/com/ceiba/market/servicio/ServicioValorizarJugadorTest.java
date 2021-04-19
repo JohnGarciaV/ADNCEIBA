@@ -110,11 +110,9 @@ public class ServicioValorizarJugadorTest {
         double respuesta= 0.0;
         ServicioValorizarJugador servicioValorizarJugador = new ServicioValorizarJugador(repositorioJugador);
 
-        servicioValorizarJugador.calcularValorizacionPorEdad(jugador.getEdad());
+        respuesta = servicioValorizarJugador.calcularValorizacionPorEdad(jugador.getEdad());
 
-        Mockito.when(servicioValorizarJugador.calcularValorizacionPorEdad(jugador.getEdad())).thenReturn(respuesta);
         // act - assert
-        //TODO:preguntar como hacerla
-        //assertEquals(VALOR_SIN_INCREMENTO, respuesta);
+        assertEquals(4000000.0, respuesta, 0.01);
     }
 }

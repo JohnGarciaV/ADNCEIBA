@@ -50,7 +50,7 @@ public class ServicioValorizarJugador {
         LocalDate fechaInicioTemporada = LocalDate.parse(jugador.getFechaInicioTemporada(), formato);
         LocalDate fechaFinTemporada = LocalDate.parse(jugador.getFechaFinTemporada(), formato);
 
-        if (!fechaActualFormateada.isAfter(fechaInicioTemporada) && fechaFinTemporada.isBefore(fechaActualFormateada)) {
+        if (fechaActualFormateada.isAfter(fechaInicioTemporada) && fechaFinTemporada.isBefore(fechaActualFormateada)) {
             throw new ExcepcionTemporadaNoValida(TEMPORADA_FINALIZADA);
         }
     }
