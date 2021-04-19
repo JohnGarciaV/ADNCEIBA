@@ -49,7 +49,7 @@ public class ComandoControladorJugador {
         return true;
     }
 
-    @PostMapping("/calificar")
+    @PatchMapping("/calificar")
     @ApiOperation("Calificar Jugador")
     public ComandoRespuesta<Long> calificar(@RequestBody ComandoHistorial comandoHistorial) {
         return manejoCalificarJugador.ejecutar(comandoHistorial);

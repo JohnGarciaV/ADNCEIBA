@@ -15,8 +15,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
@@ -63,7 +62,7 @@ public class ComandoControladorJugadorTest {
         ComandoHistorial historial = new ComandoHistorialTestDataBuilder().build();
 
         // act - assert
-        mocMvc.perform(post("/jugador/calificar")
+        mocMvc.perform(patch("/jugador/calificar")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(historial)))
                 .andExpect(status().isOk());
