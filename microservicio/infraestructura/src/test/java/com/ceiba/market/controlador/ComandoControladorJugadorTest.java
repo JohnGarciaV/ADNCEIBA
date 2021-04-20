@@ -82,12 +82,9 @@ public class ComandoControladorJugadorTest {
                         contentAsString = contentAsString.replace("[", "");
                         contentAsString = contentAsString.replace("]", "");
                         JSONObject updateJugadorResponse = new JSONObject(contentAsString);
-                        LocalDate fechaActual = LocalDate.now();
-                        DateTimeFormatter formato = DateTimeFormatter.ofPattern(FORMATO_FECHA);
-                        String formatoFechaActual = formato.format(fechaActual);
                         assertEquals(1116745412, updateJugadorResponse.getInt("numeroIdentificacion"));
-                        assertEquals("200000000", updateJugadorResponse.getInt("valorizacion"));
-                        assertEquals(formatoFechaActual, updateJugadorResponse.getInt("fechaValorizacion"));
+                        assertEquals("100000000.00", updateJugadorResponse.getString("valorizacion"));
+                        assertEquals("2021-04-13 00:00:00.0", updateJugadorResponse.getString("fechaValorizacion"));
                         }
                 );
     }
