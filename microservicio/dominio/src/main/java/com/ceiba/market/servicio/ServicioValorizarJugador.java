@@ -5,6 +5,8 @@ import com.ceiba.dominio.excepcion.ExcepcionNoExiste;
 import com.ceiba.dominio.excepcion.ExcepcionTemporadaNoValida;
 import com.ceiba.market.modelo.entidad.Jugador;
 import com.ceiba.market.puerto.repositorio.RepositorioJugador;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -20,13 +22,13 @@ public class ServicioValorizarJugador {
     private static final double VALOR_TORNEO_GANADO = 100000000;
 
     private final RepositorioJugador repositorioJugador;
+    private static final Logger LOGGER_ERROR = LoggerFactory.getLogger(ServicioValorizarJugador.class);
 
     public ServicioValorizarJugador(RepositorioJugador repositorioJugador) {
         this.repositorioJugador = repositorioJugador;
     }
 
-    public void ejecutar(Jugador jugador)
-    {
+    public void ejecutar(Jugador jugador){
         validarExistenciaPrevia(jugador);
         validarTemporada(jugador);
         validarFechaValorizacion(jugador);
@@ -38,6 +40,7 @@ public class ServicioValorizarJugador {
         boolean existe = this.repositorioJugador.existe(jugador.getNumeroIdentificacion());
         if(!existe)
         {
+            LOGGER_ERROR.error(NO_EXISTE_JUGADOR);
             throw new ExcepcionNoExiste(NO_EXISTE_JUGADOR);
         }
     }
@@ -50,7 +53,8 @@ public class ServicioValorizarJugador {
         LocalDate fechaInicioTemporada = LocalDate.parse(jugador.getFechaInicioTemporada(), formato);
         LocalDate fechaFinTemporada = LocalDate.parse(jugador.getFechaFinTemporada(), formato);
 
-        if (fechaActualFormateada.isAfter(fechaInicioTemporada) && fechaFinTemporada.isBefore(fechaActualFormateada)) {
+       if (fechaActualFormateada.isBefore(fechaInicioTemporada) || fechaFinTemporada.isBefore(fechaActualFormateada)) {
+            LOGGER_ERROR.error(TEMPORADA_FINALIZADA);
             throw new ExcepcionTemporadaNoValida(TEMPORADA_FINALIZADA);
         }
     }
@@ -64,13 +68,14 @@ public class ServicioValorizarJugador {
         LocalDate fechaValorizacion = LocalDate.parse(jugador.getFechaValorizacion(), formato);
 
         if( fechaValorizacion.getMonth().getValue() <= fechaActualFormateada.getMonth().getValue()){
+            LOGGER_ERROR.error(NO_VALORIZADO);
             throw new ExcepcionFechaValorizacion(NO_VALORIZADO);
         }
     }
 
     public Jugador calcularValorizacion(Jugador jugador){
         LocalDate fechaActual = LocalDate.now();
-        DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern(FORMATO_FECHA);
         String formatoFechaActual = formato.format(fechaActual);
         double valorizacion=0;
         double valorMinutos = jugador.getMinutosJugados() * VALOR_MINUTO_JUGADO;

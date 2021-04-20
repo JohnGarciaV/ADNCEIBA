@@ -13,6 +13,7 @@ import java.util.List;
 public class DaoHistorialH2 implements DaoHistorial {
 
     private static final String CAMPO_NUMERO_IDENTIFICACION = "numeroIdentificacion";
+    private static final String CAMPO_ID = "idHistorial";
     private final CustomNamedParameterJdbcTemplate customNamedParameterJdbcTemplate;
 
     @SqlStatement(namespace= "jugador", value="listarHistorial")
@@ -20,6 +21,9 @@ public class DaoHistorialH2 implements DaoHistorial {
 
     @SqlStatement(namespace= "jugador", value="listarHistorialPorNumeroDocumento")
     private static String sqlListarHistorialOrdenado;
+
+    @SqlStatement(namespace= "jugador", value="listarHistorialPorId")
+    private static String sqlListarHistorialPorId;
 
     public DaoHistorialH2(CustomNamedParameterJdbcTemplate customNamedParameterJdbcTemplate) {
         this.customNamedParameterJdbcTemplate = customNamedParameterJdbcTemplate;
@@ -38,5 +42,12 @@ public class DaoHistorialH2 implements DaoHistorial {
         return this.customNamedParameterJdbcTemplate.getNamedParameterJdbcTemplate().query(sqlListarHistorialOrdenado,
                 paramSource, new MapeoHistorial());
 
+    }
+    @Override
+    public List<DtoHistorial> listarPorId(Long id) {
+        MapSqlParameterSource paramSource = new MapSqlParameterSource();
+        paramSource.addValue(CAMPO_ID, id);
+        return this.customNamedParameterJdbcTemplate.getNamedParameterJdbcTemplate().query(sqlListarHistorialPorId,
+                paramSource, new MapeoHistorial());
     }
 }

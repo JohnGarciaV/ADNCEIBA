@@ -6,7 +6,6 @@ import com.ceiba.market.comando.ComandoJugador;
 import com.ceiba.market.comando.manejador.jugador.ManejadorActualizarJugador;
 import com.ceiba.market.comando.manejador.jugador.ManejadorCrearJugador;
 import com.ceiba.market.comando.manejador.jugador.ManejoCalificarJugador;
-import com.ceiba.market.excepcion.ComandoControladorJugadorExcepcion;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,13 +39,8 @@ public class ComandoControladorJugador {
     @ApiOperation("valorizar Jugador")
     public boolean valorizar(@RequestBody ComandoJugador comandoJugador)
     {
-        try {
-            manejadorActualizarJugador.ejecutar(comandoJugador);
-        }catch (Exception e)
-        {
-            throw new ComandoControladorJugadorExcepcion(e.getMessage(),e);
-        }
-        return true;
+       manejadorActualizarJugador.ejecutar(comandoJugador);
+       return true;
     }
 
     @PatchMapping("/calificar")

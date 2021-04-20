@@ -12,8 +12,14 @@ public interface DaoHistorial {
     List<DtoHistorial> listar();
 
     /**
-     * Permite listar historial
+     * Permite listar historial por numero de documento
      * @return dtoJugador
      */
     List<DtoHistorial> listarPorNumeroDocumento(int numeroDocumento);
+
+    /**
+     * Permite listar historial por id historial
+     * @return dtoJugador
+     */
+    List<DtoHistorial> listarPorId(Long id);
 }

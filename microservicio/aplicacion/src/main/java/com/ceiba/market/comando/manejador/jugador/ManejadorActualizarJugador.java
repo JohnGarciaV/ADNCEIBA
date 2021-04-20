@@ -20,13 +20,7 @@ public class ManejadorActualizarJugador  implements ManejadorComando<ComandoJuga
 
 
     public void ejecutar(ComandoJugador comandoJugador)  {
-        try
-        {
-            Jugador jugador = this.fabricaJugador.crear(comandoJugador);
-            this.servicioValorizarJugador.ejecutar(jugador);
-        }catch (Exception e)
-        {
-            throw e;
-        }
+        Jugador jugador = this.fabricaJugador.crear(comandoJugador);
+        this.servicioValorizarJugador.ejecutar(jugador);
     }
 }

@@ -8,6 +8,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -35,5 +36,17 @@ public class ConsultaControladorJugador {
     @ApiOperation("Listar Historial")
     public List<DtoHistorial> listarHistorial() {
         return this.manejadorListarHistorial.ejecutar();
+    }
+
+    @GetMapping("/by")
+    @ApiOperation("Listar jugador por numero de documentacion")
+    public List<DtoJugador> listarPorNumeroDocumento(@RequestParam("identificacion") int identificacion) {
+        return this.manejadorListarJugador.ejecutar(identificacion);
+    }
+
+    @GetMapping("/historial/by")
+    @ApiOperation("Listar historial por id")
+    public List<DtoHistorial> listarHistorialPorNumeroDocumento(@RequestParam("id") Long id) {
+        return this.manejadorListarHistorial.ejecutar(id);
     }
 }

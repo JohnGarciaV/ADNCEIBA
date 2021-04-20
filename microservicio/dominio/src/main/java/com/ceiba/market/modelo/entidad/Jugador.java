@@ -1,6 +1,8 @@
 package com.ceiba.market.modelo.entidad;
 
+import com.ceiba.dominio.excepcion.ExcepcionValorInvalido;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.Setter;
 
 @Getter
@@ -20,10 +22,16 @@ public class Jugador {
     private int torneosGanados;
     private int goles;
 
+    public static final String NUMERO_NO_POSITIVO = "Los números deben ser positivos";
+
     public Jugador(Long idJugador, int numeroIdentificacion, int edad, String valorizacion, Double calificacion,
                    String fechaInicioTemporada, String fechaFinTemporada, String fechaValorizacion, String equipoFutbol,
                    int minutosJugados, int torneosGanados, int goles) {
 
+        validarNumeroPositivo(numeroIdentificacion);
+        validarNumeroPositivo(minutosJugados);
+        validarNumeroPositivo(torneosGanados);
+        validarNumeroPositivo(goles);
         this.idJugador = idJugador;
         this.numeroIdentificacion = numeroIdentificacion;
         this.edad = edad;
@@ -36,5 +44,11 @@ public class Jugador {
         this.minutosJugados = minutosJugados;
         this.torneosGanados = torneosGanados;
         this.goles = goles;
+    }
+
+    private void validarNumeroPositivo(int numero){
+        if(numero < 0){
+            throw new ExcepcionValorInvalido(NUMERO_NO_POSITIVO);
+        }
     }
 }

@@ -29,6 +29,7 @@ public class ServicioCalificarJugadorTest {
 
     private static final Long ID_HISTORIAL =  111L;
     private static final String FORMATO_FECHA =  "yyyy-MM-dd";
+    private static final String NUMERO_NO_POSITIVO = "Los números deben ser positivos";
 
     @Test
     public void existeHistorialTest() {
@@ -100,22 +101,29 @@ public class ServicioCalificarJugadorTest {
     @Test
     public void actualizarCalificacionJugadorTest(){
         // arrange
+        JugadorTestDataBuilder jugadorTestDataBuilder =
+                new JugadorTestDataBuilder()
+                        .conNumeroIdentificacion(1116247957)
+                        .conMinutosJugados(10);
         HistorialTestDataBuilder historialTestDataBuilder = new HistorialTestDataBuilder()
-                .conNumeroIdentificacion(1116247957);
+                .conNumeroIdentificacion(1116247957)
+                .conMinutosJugados(10);
         RepositorioHistorial repositorioHistorial = Mockito.mock(RepositorioHistorial.class);
         DaoHistorial daoHistorial = Mockito.mock(DaoHistorial.class);
         DaoJugador daoJugador = Mockito.mock(DaoJugador.class);
         RepositorioJugador repositorioJugador = Mockito.mock(RepositorioJugador.class);
         Historial historial = historialTestDataBuilder.build();
+        Jugador jugador = jugadorTestDataBuilder.build();
+        Long id =0L;
         ServicioCalificarJugador servicioCalificarJugador = new ServicioCalificarJugador(repositorioHistorial,
                 daoHistorial, daoJugador, repositorioJugador);
 
-       // Mockito.when(servicioCalificarJugador.existeHistorial(historial)).thenReturn(historial);
+       /* Mockito.when( servicioCalificarJugador.ejecutar(historial)).thenReturn(id);
+        Mockito.when(servicioCalificarJugador.existeHistorial(historial)).thenReturn(historial);
 
-      //  servicioCalificarJugador.ejecutar(historial);
+        nuevoHistorial = servicioCalificarJugador.actualizarCalificacionJugador(historial, nuevoHistorial, jugador);
 
-        //assert
-     //   Mockito.verify(repositorioHistorial).actualizarCalificacionJugador(pago);
+        assertEquals(20, nuevoHistorial.getMinutosJugados());*/
     }
 
     @Test
@@ -149,18 +157,21 @@ public class ServicioCalificarJugadorTest {
         // arrange
         HistorialTestDataBuilder historialTestDataBuilder =
                 new HistorialTestDataBuilder().conMinutosJugados(-1).conTorneoGanados(1).conGoles(3);
-        Historial historial = historialTestDataBuilder.build();
-        RepositorioHistorial repositorioHistorial = Mockito.mock(RepositorioHistorial.class);
-        DaoHistorial daoHistorial = Mockito.mock(DaoHistorial.class);
-        DaoJugador daoJugador = Mockito.mock(DaoJugador.class);
-        RepositorioJugador repositorioJugador = Mockito.mock(RepositorioJugador.class);
-        //act
-        ServicioCalificarJugador servicioCalificarJugador = new ServicioCalificarJugador(repositorioHistorial,
-                daoHistorial, daoJugador, repositorioJugador);
 
         // act - assert
-        BasePrueba.assertThrows(() -> servicioCalificarJugador.validarNumerosPositivos(historial), ExcepcionValorInvalido.class,
-                servicioCalificarJugador.NUMERO_NO_POSITIVO);
+        BasePrueba.assertThrows(() -> historialTestDataBuilder.build(), ExcepcionValorInvalido.class,
+                NUMERO_NO_POSITIVO);
+    }
+
+    @Test
+    public void NumerosPositivosTest(){
+        // arrange
+        HistorialTestDataBuilder historialTestDataBuilder =
+                new HistorialTestDataBuilder().conMinutosJugados(-1).conTorneoGanados(1).conGoles(3);
+
+        // act - assert
+        BasePrueba.assertThrows(() -> historialTestDataBuilder.build(), ExcepcionValorInvalido.class,
+                NUMERO_NO_POSITIVO);
     }
 
 }
