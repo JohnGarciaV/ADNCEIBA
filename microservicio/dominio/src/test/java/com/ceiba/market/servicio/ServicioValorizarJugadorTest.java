@@ -18,10 +18,30 @@ import static org.mockito.Mockito.when;
 
 public class ServicioValorizarJugadorTest {
 
-    private static final double VALOR_MENOR_EDAD = 4000000.0;
+    private static final double VALOR_MAYOR_EDAD = 4000000.0;
+    private static final double VALOR_MENOR_EDAD = 5000000.0;
 
     @Test
     public void validarExistenciaPreviaTest() {
+        // arrange
+        Jugador jugador = new JugadorTestDataBuilder()
+                .conIdJugador(1L)
+                .conNumeroIdentificacion(1116247957)
+                .conFechaValorizacion("2021-05-28")
+                .build();
+        RepositorioJugador repositorioJugador = Mockito.mock(RepositorioJugador.class);
+
+        //act
+        Mockito.when(repositorioJugador.existe(jugador.getNumeroIdentificacion())).thenReturn(Boolean.TRUE);
+        ServicioValorizarJugador servicioValorizarJugador = new ServicioValorizarJugador(repositorioJugador);
+
+        // act - assert
+        servicioValorizarJugador.ejecutar(jugador);
+        // act - assert
+        Mockito.verify(repositorioJugador, Mockito.times(1)).existe(jugador.getNumeroIdentificacion()); }
+
+    @Test
+    public void NoExisteTest() {
         // arrange
         Jugador jugador = new JugadorTestDataBuilder().conIdJugador(1L).build();
         RepositorioJugador repositorioJugador = Mockito.mock(RepositorioJugador.class);
@@ -31,6 +51,7 @@ public class ServicioValorizarJugadorTest {
         ServicioCrearJugador servicioCrearJugador = new ServicioCrearJugador(repositorioJugador);
 
         // act - assert
+
         BasePrueba.assertThrows(() -> servicioCrearJugador.ejecutar(jugador), ExcepcionDuplicidad.class, servicioCrearJugador.EL_JUGADOR_YA_FUE_CREADO);
     }
 
@@ -75,7 +96,7 @@ public class ServicioValorizarJugadorTest {
     }
 
     @Test
-    public void validarFechaValorizacionaTest() {
+    public void FechaValorizacionaValidaTest() {
         // arrange
         RepositorioJugador repositorioJugador = Mockito.mock(RepositorioJugador.class);
 
@@ -95,7 +116,7 @@ public class ServicioValorizarJugadorTest {
     }
 
     @Test
-    public void fechaValorizacionaValidaTest() {
+    public void validarFechaValorizacionTest() {
         // arrange
         RepositorioJugador repositorioJugador = Mockito.mock(RepositorioJugador.class);
         LocalDate fechaActual = LocalDate.now();
@@ -113,8 +134,8 @@ public class ServicioValorizarJugadorTest {
         ServicioValorizarJugador servicioValorizarJugador = new ServicioValorizarJugador(repositorioJugador);
 
         // act - assert
-        BasePrueba.assertThrows(() -> servicioValorizarJugador.validarFechaValorizacion(jugador), ExcepcionFechaValorizacion.class, servicioValorizarJugador.NO_VALORIZADO);
-
+        BasePrueba.assertThrows(() -> servicioValorizarJugador.validarFechaValorizacion(jugador),
+                                ExcepcionFechaValorizacion.class, servicioValorizarJugador.NO_VALORIZADO);
     }
 
     @Test
@@ -138,22 +159,39 @@ public class ServicioValorizarJugadorTest {
     }
 
     @Test
-    public void calcularValorizacionPorEdadTest() {
+    public void calcularValorizacionPorMenorEdadTest() {
         // arrange
         RepositorioJugador repositorioJugador = Mockito.mock(RepositorioJugador.class);
 
         JugadorTestDataBuilder jugadorTestDataBuilder =
-                new JugadorTestDataBuilder().conEdad(21);
+                new JugadorTestDataBuilder().conEdad(20);
         ;       Jugador jugador = jugadorTestDataBuilder.build();
         when(repositorioJugador.existe(Mockito.anyInt())).thenReturn(true);
 
         //act
         double respuesta= 0.0;
         ServicioValorizarJugador servicioValorizarJugador = new ServicioValorizarJugador(repositorioJugador);
-
         respuesta = servicioValorizarJugador.calcularValorizacionPorEdad(jugador.getEdad());
 
         // act - assert
         assertEquals(VALOR_MENOR_EDAD, respuesta, 0.01);
+    }
+
+    @Test
+    public void calcularValorizacionPorMayorEdadTest() {
+        // arrange
+        RepositorioJugador repositorioJugador = Mockito.mock(RepositorioJugador.class);
+
+        JugadorTestDataBuilder jugadorTestDataBuilder =
+                new JugadorTestDataBuilder().conEdad(22);
+        Jugador jugador = jugadorTestDataBuilder.build();
+        when(repositorioJugador.existe(Mockito.anyInt())).thenReturn(true);
+        //act
+        double respuesta= 0.0;
+        ServicioValorizarJugador servicioValorizarJugador = new ServicioValorizarJugador(repositorioJugador);
+        respuesta = servicioValorizarJugador.calcularValorizacionPorEdad(jugador.getEdad());
+
+        // act - assert
+        assertEquals(VALOR_MAYOR_EDAD, respuesta, 0.01);
     }
 }

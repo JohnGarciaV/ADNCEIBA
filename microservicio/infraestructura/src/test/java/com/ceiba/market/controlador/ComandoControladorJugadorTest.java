@@ -3,12 +3,16 @@ package com.ceiba.market.controlador;
 import com.ceiba.ApplicationMock;
 import com.ceiba.market.comando.ComandoHistorial;
 import com.ceiba.market.comando.ComandoJugador;
+import com.ceiba.market.modelo.dto.DtoHistorial;
+import com.ceiba.market.modelo.entidad.Historial;
+import com.ceiba.market.puerto.dao.DaoHistorial;
 import com.ceiba.market.servicio.testdatabuilder.ComandoHistorialTestDataBuilder;
 import com.ceiba.market.servicio.testdatabuilder.ComandoJugadorTestDataBuilder;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONObject;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
@@ -19,6 +23,8 @@ import org.springframework.test.web.servlet.MvcResult;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -131,4 +137,5 @@ public class ComandoControladorJugadorTest {
                                     .andExpect(status().isOk());
                         });
     }
-}
+
+   }

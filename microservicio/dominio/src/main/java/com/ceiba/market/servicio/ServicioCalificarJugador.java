@@ -2,7 +2,6 @@ package com.ceiba.market.servicio;
 
 import com.ceiba.dominio.excepcion.ExcepcionNoExiste;
 import com.ceiba.dominio.excepcion.ExcepcionNoExisteDato;
-import com.ceiba.dominio.excepcion.ExcepcionValorInvalido;
 import com.ceiba.market.modelo.dto.DtoHistorial;
 import com.ceiba.market.modelo.dto.DtoJugador;
 import com.ceiba.market.modelo.entidad.Historial;
@@ -27,7 +26,7 @@ public class ServicioCalificarJugador {
     public static final String NUMERO_NO_POSITIVO = "Los números deben ser positivos";
     public static final Double VALOR_ITEM = 0.2;
     public static final String FORMATO_FECHA =  "yyyy-MM-dd";
-    private static final Logger LOGGER_ERROR = LoggerFactory.getLogger(ServicioCalificarJugador.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ServicioCalificarJugador.class);
 
     private final RepositorioHistorial repositorioHistorial;
     private final DaoHistorial daoHistorial;
@@ -62,10 +61,9 @@ public class ServicioCalificarJugador {
                     ultimoHistorialDto.getMinutosJugados(), ultimoHistorialDto.getTorneoGanados(),
                     ultimoHistorialDto.getGoles());
         }else{
-            LOGGER_ERROR.error(NO_EXISTE_HISTORIAL);
+            LOGGER.error(NO_EXISTE_HISTORIAL);
             throw new ExcepcionNoExisteDato(NO_EXISTE_HISTORIAL);
         }
-
         return ultimoHistorial;
     }
 
@@ -79,8 +77,8 @@ public class ServicioCalificarJugador {
         String ultimaFechaActual = ultimoHistorial.getFechaCalificacion().replaceAll(" 00:00:00.0", "");
         LocalDate ultimaCalificacion = LocalDate.parse(ultimaFechaActual, formato);
         historial.setFechaCalificacion(formatoFechaActual+ " 00:00:00.0");
-        if (fechaActualFormateada.isEqual(ultimaCalificacion)) {
-            LOGGER_ERROR.error(EXISTE_CALIFICACION);
+        if (fechaActualFormateada.isEqual(ultimaCalificacion) || fechaActualFormateada.isBefore(ultimaCalificacion)) {
+            LOGGER.error(EXISTE_CALIFICACION);
             throw new ExcepcionNoExisteDato(EXISTE_CALIFICACION);
         }
         return historial;
@@ -98,7 +96,7 @@ public class ServicioCalificarJugador {
                     dtoJugador.getFechaValorizacion(), dtoJugador.getEquipoFutbol(), dtoJugador.getMinutosJugados(),
                      dtoJugador.getTorneosGanados(), dtoJugador.getGoles());
         }else{
-            LOGGER_ERROR.error(NO_EXISTE_JUGADOR);
+            LOGGER.error(NO_EXISTE_JUGADOR);
             throw new ExcepcionNoExiste(NO_EXISTE_JUGADOR);
         }
         return jugador;

@@ -15,15 +15,9 @@ import com.ceiba.market.servicio.testdatabuilder.JugadorTestDataBuilder;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
 
 public class ServicioCalificarJugadorTest {
 
@@ -68,13 +62,40 @@ public class ServicioCalificarJugadorTest {
         DaoJugador daoJugador = Mockito.mock(DaoJugador.class);
         RepositorioJugador repositorioJugador = Mockito.mock(RepositorioJugador.class);
 
-        Mockito.when(repositorioHistorial.existe(historial.getNumeroIdentificacion())).thenReturn(Boolean.TRUE);
-        //act
+        Mockito.when(repositorioHistorial.existe(historial.getNumeroIdentificacion())).thenReturn(Boolean.TRUE); //act
         ServicioCalificarJugador servicioCalificarJugador = new ServicioCalificarJugador(repositorioHistorial,
                 daoHistorial, daoJugador, repositorioJugador);
         // act - assert
         BasePrueba.assertThrows(() -> servicioCalificarJugador.validarDiaCalificacion(historial, historial), ExcepcionNoExisteDato.class,
-                servicioCalificarJugador.EXISTE_CALIFICACION);
+        servicioCalificarJugador.EXISTE_CALIFICACION);
+    }
+
+    @Test
+    public void diaCalificacionValidoTest() {
+        // arrange
+        LocalDate fechaActual = LocalDate.now();
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern(FORMATO_FECHA);
+        String formatoFechaActual = formato.format(fechaActual);
+        HistorialTestDataBuilder historialTestDataBuilder =
+                new HistorialTestDataBuilder().conNumeroIdentificacion(123456)
+                        .conFechaCalificacion(formatoFechaActual);
+        Historial historial = historialTestDataBuilder.build();
+
+        HistorialTestDataBuilder ultimoHistorialTestDataBuilder =
+                new HistorialTestDataBuilder().conNumeroIdentificacion(123456)
+                        .conFechaCalificacion("2021-04-16");
+        Historial ultimoHistorial = ultimoHistorialTestDataBuilder.build();
+        RepositorioHistorial repositorioHistorial = Mockito.mock(RepositorioHistorial.class);
+        DaoHistorial daoHistorial = Mockito.mock(DaoHistorial.class);
+        DaoJugador daoJugador = Mockito.mock(DaoJugador.class);
+        RepositorioJugador repositorioJugador = Mockito.mock(RepositorioJugador.class);
+
+      //act
+        Mockito.when(repositorioHistorial.existe(historial.getNumeroIdentificacion())).thenReturn(Boolean.TRUE); //act
+        ServicioCalificarJugador servicioCalificarJugador = new ServicioCalificarJugador(repositorioHistorial,
+                daoHistorial, daoJugador, repositorioJugador);
+
+        assertEquals("2021-04-20 00:00:00.0", servicioCalificarJugador.validarDiaCalificacion(historial, ultimoHistorial).getFechaCalificacion());
     }
 
     @Test

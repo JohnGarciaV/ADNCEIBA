@@ -20,9 +20,11 @@ public class ServicioValorizarJugador {
     private static final double VALOR_MINUTO_JUGADO =  50000;
     private static final double VALOR_GOL = 2000000;
     private static final double VALOR_TORNEO_GANADO = 100000000;
+    private static final double VALOR_MAYOR_EDAD = 4000000;
+    private static final double VALOR_MENOR_EDAD = 5000000;
 
     private final RepositorioJugador repositorioJugador;
-    private static final Logger LOGGER_ERROR = LoggerFactory.getLogger(ServicioValorizarJugador.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ServicioValorizarJugador.class);
 
     public ServicioValorizarJugador(RepositorioJugador repositorioJugador) {
         this.repositorioJugador = repositorioJugador;
@@ -40,7 +42,7 @@ public class ServicioValorizarJugador {
         boolean existe = this.repositorioJugador.existe(jugador.getNumeroIdentificacion());
         if(!existe)
         {
-            LOGGER_ERROR.error(NO_EXISTE_JUGADOR);
+            LOGGER.error(NO_EXISTE_JUGADOR);
             throw new ExcepcionNoExiste(NO_EXISTE_JUGADOR);
         }
     }
@@ -54,7 +56,7 @@ public class ServicioValorizarJugador {
         LocalDate fechaFinTemporada = LocalDate.parse(jugador.getFechaFinTemporada(), formato);
 
        if (fechaActualFormateada.isBefore(fechaInicioTemporada) || fechaFinTemporada.isBefore(fechaActualFormateada)) {
-            LOGGER_ERROR.error(TEMPORADA_FINALIZADA);
+           LOGGER.error(TEMPORADA_FINALIZADA);
             throw new ExcepcionTemporadaNoValida(TEMPORADA_FINALIZADA);
         }
     }
@@ -68,7 +70,7 @@ public class ServicioValorizarJugador {
         LocalDate fechaValorizacion = LocalDate.parse(jugador.getFechaValorizacion(), formato);
 
         if( fechaValorizacion.getMonth().getValue() <= fechaActualFormateada.getMonth().getValue()){
-            LOGGER_ERROR.error(NO_VALORIZADO);
+            LOGGER.error(NO_VALORIZADO);
             throw new ExcepcionFechaValorizacion(NO_VALORIZADO);
         }
     }
@@ -94,9 +96,9 @@ public class ServicioValorizarJugador {
     public double calcularValorizacionPorEdad(int edad){
         double valorizacionEdad=0;
         if(edad >= 21){
-            valorizacionEdad = 4000000;
+            valorizacionEdad = VALOR_MAYOR_EDAD;
         }else if(edad < 21){
-            valorizacionEdad = 5000000;
+            valorizacionEdad = VALOR_MENOR_EDAD;
         }
         return valorizacionEdad;
     }
