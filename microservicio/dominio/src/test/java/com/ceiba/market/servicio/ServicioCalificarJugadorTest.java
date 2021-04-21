@@ -4,6 +4,7 @@ import com.ceiba.core.BasePrueba;
 import com.ceiba.dominio.excepcion.ExcepcionNoExiste;
 import com.ceiba.dominio.excepcion.ExcepcionNoExisteDato;
 import com.ceiba.dominio.excepcion.ExcepcionValorInvalido;
+import com.ceiba.market.modelo.dto.DtoHistorial;
 import com.ceiba.market.modelo.dto.DtoJugador;
 import com.ceiba.market.modelo.entidad.Historial;
 import com.ceiba.market.modelo.entidad.Jugador;
@@ -30,7 +31,7 @@ public class ServicioCalificarJugadorTest {
     private static final String NUMERO_NO_POSITIVO = "Los números deben ser positivos";
 
     @Test
-    public void existeHistorialTest() {
+    public void validarExisteHistorialTest() {
         // arrange
         HistorialTestDataBuilder historialTestDataBuilder =
                 new HistorialTestDataBuilder().conIdHistorial(ID_HISTORIAL);
@@ -48,6 +49,36 @@ public class ServicioCalificarJugadorTest {
         // act - assert
         BasePrueba.assertThrows(() -> servicioCalificarJugador.existeHistorial(historial), ExcepcionNoExisteDato.class,
                 servicioCalificarJugador.NO_EXISTE_HISTORIAL);
+    }
+
+    @Test
+    public void existeHistorialTest() {
+        // arrange
+        HistorialTestDataBuilder historialTestDataBuilder =
+                new HistorialTestDataBuilder().conIdHistorial(ID_HISTORIAL);
+        Historial historial = historialTestDataBuilder.build();
+
+        HistorialTestDataBuilder historialTestDataBuilderDto = new HistorialTestDataBuilder()
+                .conNumeroIdentificacion(1116)
+                .conGoles(3)
+                .conMinutosJugados(50);
+        DtoHistorial dtoHistorial = historialTestDataBuilderDto.buildDto();
+
+        RepositorioHistorial repositorioHistorial = Mockito.mock(RepositorioHistorial.class);
+        DaoHistorial daoHistorial = Mockito.mock(DaoHistorial.class);
+        DaoJugador daoJugador = Mockito.mock(DaoJugador.class);
+        RepositorioJugador repositorioJugador = Mockito.mock(RepositorioJugador.class);
+
+        List<DtoHistorial> listaEsperada = new ArrayList<>();
+        listaEsperada.add(dtoHistorial);
+
+        //act
+        Mockito.when(daoHistorial.listarPorNumeroDocumento(historial.getNumeroIdentificacion())).thenReturn(listaEsperada); //act
+        ServicioCalificarJugador servicioCalificarJugador = new ServicioCalificarJugador(repositorioHistorial,
+                daoHistorial, daoJugador, repositorioJugador);
+
+        assertEquals(3, servicioCalificarJugador.existeHistorial(historial).getGoles());
+        assertEquals(50, servicioCalificarJugador.existeHistorial(historial).getMinutosJugados());
     }
 
     @Test

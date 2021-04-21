@@ -1,5 +1,6 @@
 package com.ceiba.market.servicio.testdatabuilder;
 
+import com.ceiba.market.modelo.dto.DtoHistorial;
 import com.ceiba.market.modelo.dto.DtoJugador;
 import com.ceiba.market.modelo.entidad.Historial;
 import com.ceiba.market.modelo.entidad.Jugador;
@@ -84,6 +85,13 @@ public class HistorialTestDataBuilder {
     {
         return new Historial(this.idHistorial, this.numeroIdentificacion, this.valorTransferencia,
                  this.fechaTransferencia, this.fechaCalificacion, this.equipoFutbolAnterior,
+                this.equipoFutbolActual, this.minutosJugados,  this.torneoGanados, this.goles);
+    }
+
+    public DtoHistorial buildDto()
+    {
+        return new DtoHistorial(this.idHistorial, this.numeroIdentificacion, this.valorTransferencia,
+                this.fechaTransferencia, this.fechaCalificacion, this.equipoFutbolAnterior,
                 this.equipoFutbolActual, this.minutosJugados,  this.torneoGanados, this.goles);
     }
 }
