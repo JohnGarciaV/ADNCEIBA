@@ -83,19 +83,20 @@ public class ServicioCalificarJugadorTest {
 
         HistorialTestDataBuilder ultimoHistorialTestDataBuilder =
                 new HistorialTestDataBuilder().conNumeroIdentificacion(123456)
-                        .conFechaCalificacion("2021-04-16");
+                        .conFechaCalificacion("2021-03-16");
         Historial ultimoHistorial = ultimoHistorialTestDataBuilder.build();
         RepositorioHistorial repositorioHistorial = Mockito.mock(RepositorioHistorial.class);
         DaoHistorial daoHistorial = Mockito.mock(DaoHistorial.class);
         DaoJugador daoJugador = Mockito.mock(DaoJugador.class);
         RepositorioJugador repositorioJugador = Mockito.mock(RepositorioJugador.class);
+        formatoFechaActual = formatoFechaActual+" 00:00:00.0";
 
       //act
         Mockito.when(repositorioHistorial.existe(historial.getNumeroIdentificacion())).thenReturn(Boolean.TRUE); //act
         ServicioCalificarJugador servicioCalificarJugador = new ServicioCalificarJugador(repositorioHistorial,
                 daoHistorial, daoJugador, repositorioJugador);
 
-        assertEquals("2021-04-20 00:00:00.0", servicioCalificarJugador.validarDiaCalificacion(historial, ultimoHistorial).getFechaCalificacion());
+        assertEquals(formatoFechaActual, servicioCalificarJugador.validarDiaCalificacion(historial, ultimoHistorial).getFechaCalificacion());
     }
 
     @Test
