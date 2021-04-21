@@ -2,7 +2,6 @@ package com.ceiba.market.modelo.entidad;
 
 import com.ceiba.dominio.excepcion.ExcepcionValorInvalido;
 import lombok.Getter;
-import lombok.NonNull;
 import lombok.Setter;
 
 @Getter

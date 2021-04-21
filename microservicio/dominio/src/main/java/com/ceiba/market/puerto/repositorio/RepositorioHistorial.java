@@ -1,8 +1,6 @@
 package com.ceiba.market.puerto.repositorio;
 
-import com.ceiba.market.modelo.dto.DtoHistorial;
 import com.ceiba.market.modelo.entidad.Historial;
-import com.ceiba.market.modelo.entidad.Jugador;
 
 import java.util.List;
 
