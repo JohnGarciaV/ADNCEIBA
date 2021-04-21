@@ -1,5 +1,6 @@
 package com.ceiba.market.servicio.testdatabuilder;
 
+import com.ceiba.market.modelo.dto.DtoJugador;
 import com.ceiba.market.modelo.entidad.Jugador;
 
 public class JugadorTestDataBuilder {
@@ -96,6 +97,16 @@ public class JugadorTestDataBuilder {
     public Jugador build()
     {
         return new Jugador(this.idJugador,this.numeroIdentificacion,
+                this.edad,this.valorizacion, this.calificacion,
+                this.fechaInicioTemporada, this.fechaFinTemporada,
+                this.fechaValorizacion, this.equipoFutbol,
+                this.minutosJugados, this.torneosGanados,
+                this.goles);
+    }
+
+    public DtoJugador buildDto()
+    {
+        return new DtoJugador(this.idJugador,this.numeroIdentificacion,
                 this.edad,this.valorizacion, this.calificacion,
                 this.fechaInicioTemporada, this.fechaFinTemporada,
                 this.fechaValorizacion, this.equipoFutbol,

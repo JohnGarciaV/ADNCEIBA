@@ -1,5 +1,6 @@
 package com.ceiba.market.servicio.testdatabuilder;
 
+import com.ceiba.market.modelo.dto.DtoJugador;
 import com.ceiba.market.modelo.entidad.Historial;
 import com.ceiba.market.modelo.entidad.Jugador;
 

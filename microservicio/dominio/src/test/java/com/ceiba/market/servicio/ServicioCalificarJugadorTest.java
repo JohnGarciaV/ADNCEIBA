@@ -4,6 +4,7 @@ import com.ceiba.core.BasePrueba;
 import com.ceiba.dominio.excepcion.ExcepcionNoExiste;
 import com.ceiba.dominio.excepcion.ExcepcionNoExisteDato;
 import com.ceiba.dominio.excepcion.ExcepcionValorInvalido;
+import com.ceiba.market.modelo.dto.DtoJugador;
 import com.ceiba.market.modelo.entidad.Historial;
 import com.ceiba.market.modelo.entidad.Jugador;
 import com.ceiba.market.puerto.dao.DaoHistorial;
@@ -17,6 +18,9 @@ import org.mockito.Mockito;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.Assert.assertEquals;
 
 public class ServicioCalificarJugadorTest {
@@ -100,7 +104,7 @@ public class ServicioCalificarJugadorTest {
     }
 
     @Test
-    public void existeJugadorTest() {
+    public void validarExisteJugadorTest() {
         // arrange
         HistorialTestDataBuilder historialTestDataBuilder =
                 new HistorialTestDataBuilder().conIdHistorial(ID_HISTORIAL);
@@ -118,6 +122,38 @@ public class ServicioCalificarJugadorTest {
         // act - assert
         BasePrueba.assertThrows(() -> servicioCalificarJugador.existeJugador(historial), ExcepcionNoExiste.class,
                 servicioCalificarJugador.NO_EXISTE_JUGADOR);
+    }
+
+    @Test
+    public void ExisteJugadorTest() {
+        // arrange
+        HistorialTestDataBuilder historialTestDataBuilder =
+                new HistorialTestDataBuilder().conNumeroIdentificacion(123456);
+        Historial historial = historialTestDataBuilder.build();
+
+        JugadorTestDataBuilder jugador = new JugadorTestDataBuilder()
+                                    .conNumeroIdentificacion(123456)
+                                    .conGoles(5)
+                                    .conMinutosJugados(90)
+                                    .conTorneosGanados(1);
+        DtoJugador dtoJugador = jugador.buildDto();
+
+        RepositorioHistorial repositorioHistorial = Mockito.mock(RepositorioHistorial.class);
+        DaoHistorial daoHistorial = Mockito.mock(DaoHistorial.class);
+        DaoJugador daoJugador = Mockito.mock(DaoJugador.class);
+        RepositorioJugador repositorioJugador = Mockito.mock(RepositorioJugador.class);
+
+        List<DtoJugador> listaEsperada = new ArrayList<>();
+        listaEsperada.add(dtoJugador);
+
+        //act
+        Mockito.when(daoJugador.listarPorNumeroDocumento(historial.getNumeroIdentificacion())).thenReturn(listaEsperada); //act
+        ServicioCalificarJugador servicioCalificarJugador = new ServicioCalificarJugador(repositorioHistorial,
+                daoHistorial, daoJugador, repositorioJugador);
+
+        assertEquals(5, servicioCalificarJugador.existeJugador(historial).getGoles());
+        assertEquals(90, servicioCalificarJugador.existeJugador(historial).getMinutosJugados());
+        assertEquals(1, servicioCalificarJugador.existeJugador(historial).getTorneosGanados());
     }
 
     @Test
