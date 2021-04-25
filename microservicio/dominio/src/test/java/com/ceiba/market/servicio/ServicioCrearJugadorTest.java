@@ -19,12 +19,12 @@ public class ServicioCrearJugadorTest {
         JugadorTestDataBuilder jugadorTestDataBuilder = new JugadorTestDataBuilder().conIdJugador(ID_JUGADOR);
 
         RepositorioJugador repositorioJugador = Mockito.mock(RepositorioJugador.class);
-        ServicioCrearJugador servicioCrearPago = new ServicioCrearJugador(repositorioJugador);
+        ServicioCrearJugador servicioCrearJugador = new ServicioCrearJugador(repositorioJugador);
 
         //act
         Jugador jugador = jugadorTestDataBuilder.build();
         Mockito.when(repositorioJugador.crear(jugador)).thenReturn(ID_JUGADOR);
-        servicioCrearPago.ejecutar(jugador);
+        servicioCrearJugador.ejecutar(jugador);
 
         //assert
         assertEquals(jugador.getIdJugador(), ID_JUGADOR);

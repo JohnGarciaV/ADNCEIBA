@@ -41,8 +41,6 @@ public class ComandoControladorJugadorTest {
     @Autowired
     private MockMvc mocMvc;
 
-    private static final String FORMATO_FECHA =  "yyyy-MM-dd";
-
     @Test
     public void crear() throws Exception{
         // arrange
@@ -62,11 +60,12 @@ public class ComandoControladorJugadorTest {
     @Test
     public void valorizar() throws Exception{
         // arrange
-        ComandoJugador jugador = new ComandoJugadorTestDataBuilder().conNumeroIdentificacion(1116745412).
-                conFechaValorizacion("2021-07-13")
+        ComandoJugador jugador = new ComandoJugadorTestDataBuilder()
+                .conNumeroIdentificacion(1116745412)
                 .conFechaInicioTemporada("2021-01-21")
-                .conFechaFinTemporada("2021-07-21")
-                .conValorizacion("500000.00")
+                .conFechaFinTemporada("2021-10-21")
+                .conFechaValorizacion("2021-02-13")
+                .conValorizacion("500000")
                 .conEdad(21)
                 .conMinutosJugados(100)
                 .conTorneosGanados(2)
@@ -130,7 +129,7 @@ public class ComandoControladorJugadorTest {
                                                 JSONObject updateJugadorResponse = new JSONObject(contentAsString);
                                                 assertEquals(1116745412, updateJugadorResponse.getInt("numeroIdentificacion"));
                                                 assertEquals(590, updateJugadorResponse.getInt("minutosJugados"));
-                                                assertEquals(3, updateJugadorResponse.getInt("torneosGanados"));
+                                                assertEquals(3, updateJugadorResponse.getInt("torneoGanados"));
                                                 assertEquals(8, updateJugadorResponse.getInt("goles"));
                                             }
                                     )

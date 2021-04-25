@@ -5,6 +5,7 @@ import com.ceiba.market.comando.ComandoJugador;
 public class ComandoJugadorTestDataBuilder {
 
     private Long idJugador;
+    private String nombre;
     private int numeroIdentificacion;
     private int edad;
     private String valorizacion;
@@ -21,12 +22,13 @@ public class ComandoJugadorTestDataBuilder {
 
         this.idJugador = 111L;
         this.numeroIdentificacion = 1116;
+        this.nombre = "Pepito Perez";
         this.edad = 18;
-        this.valorizacion = "50000000.00";
+        this.valorizacion = "50000000";
         this.calificacion= 2.0;
-        this.fechaInicioTemporada= "2021-04-17 00:00:00.0";
-        this.fechaFinTemporada= "2021-04-23 00:00:00.0";
-        this.fechaValorizacion= "2021-04-23 00:00:00.0";
+        this.fechaInicioTemporada= "2021-04-17";
+        this.fechaFinTemporada= "2021-09-23";
+        this.fechaValorizacion= "2021-04-23";
         this.equipoFutbol="Cortulua";
         this.minutosJugados= 60;
         this.torneosGanados= 1;
@@ -95,7 +97,7 @@ public class ComandoJugadorTestDataBuilder {
 
     public ComandoJugador build()
     {
-        return new ComandoJugador(this.idJugador,this.numeroIdentificacion,
+        return new ComandoJugador(this.idJugador,this.nombre,this.numeroIdentificacion,
                 this.edad,this.valorizacion, this.calificacion,
                 this.fechaInicioTemporada, this.fechaFinTemporada,
                 this.fechaValorizacion, this.equipoFutbol,

@@ -11,6 +11,7 @@ public class MapeoJugador implements RowMapper<DtoJugador>, MapperResult {
 
     public DtoJugador mapRow(ResultSet resultSet, int rowNum) throws SQLException {
         Long idJugador = resultSet.getLong("id_jugador");
+        String nombre = resultSet.getString("nombre");
         int numeroIdentificacion = resultSet.getInt("numero_identificacion");
         int edad = resultSet.getInt("edad");
         String valorizacion = resultSet.getString("valorizacion");
@@ -24,8 +25,8 @@ public class MapeoJugador implements RowMapper<DtoJugador>, MapperResult {
         int goles = resultSet.getInt("goles");
 
 
-        return new DtoJugador(idJugador,numeroIdentificacion,
-                edad,valorizacion,calificacion,
+        return new DtoJugador(idJugador,nombre,
+                numeroIdentificacion, edad,valorizacion,calificacion,
                 inicioTemporada,finTemporada, fechaValorizacion,
                 equipoFutbol, minutosJugados, torneosGanados, goles);
     }

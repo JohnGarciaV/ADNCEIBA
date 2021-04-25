@@ -42,14 +42,14 @@ public class ServicioCalificarJugador {
     }
 
     public Long ejecutar(Historial historial) {
-        Historial ultimoHistorial = existeHistorial(historial);
-        historial = validarDiaCalificacion(historial, ultimoHistorial);
         Jugador jugador = existeJugador(historial);
+        Historial ultimoHistorial = existeHistorial(historial, jugador);
+        historial = validarDiaCalificacion(historial, ultimoHistorial);
         historial = actualizarCalificacionJugador(historial, ultimoHistorial, jugador);
         return this.repositorioHistorial.crear(historial);
     }
 
-    public Historial existeHistorial(Historial historial){
+    public Historial existeHistorial(Historial historial, Jugador jugador){
         List<DtoHistorial> listDtoHistorial = this.daoHistorial.listarPorNumeroDocumento(historial.getNumeroIdentificacion());
         Historial ultimoHistorial;
         if(!listDtoHistorial.isEmpty()) {
@@ -61,8 +61,26 @@ public class ServicioCalificarJugador {
                     ultimoHistorialDto.getMinutosJugados(), ultimoHistorialDto.getTorneoGanados(),
                     ultimoHistorialDto.getGoles());
         }else{
-            LOGGER.error(NO_EXISTE_HISTORIAL);
-            throw new ExcepcionNoExisteDato(NO_EXISTE_HISTORIAL);
+            int minutosTemporal = historial.getMinutosJugados();
+            int torneosGanados = historial.getTorneoGanados();
+            int goles = historial.getGoles();
+            LocalDate fechaActual = LocalDate.now();
+            DateTimeFormatter formato = DateTimeFormatter.ofPattern(FORMATO_FECHA);
+            fechaActual = fechaActual.minusDays(1);
+            String formatoFechaActual = formato.format(fechaActual);
+            historial.setMinutosJugados(0);
+            historial.setTorneoGanados(0);
+            historial.setGoles(0);
+            historial.setValorTransferencia(jugador.getValorizacion());
+            historial.setFechaTransferencia(jugador.getFechaValorizacion());
+            historial.setFechaCalificacion(formatoFechaActual);
+            historial.setEquipoFutbolAnterior(jugador.getEquipoFutbol());
+            historial.setEquipoFutbolActual(jugador.getEquipoFutbol());
+            this.repositorioHistorial.crear(historial);
+            historial.setMinutosJugados(minutosTemporal);
+            historial.setTorneoGanados(torneosGanados);
+            historial.setGoles(goles);
+            ultimoHistorial = historial;
         }
         return ultimoHistorial;
     }
@@ -90,11 +108,13 @@ public class ServicioCalificarJugador {
         if(!listDtoJugador.isEmpty()){
             DtoJugador dtoJugador = listDtoJugador.get(0);
 
-             jugador = new Jugador(dtoJugador.getIdJugador(), dtoJugador.getNumeroIdentificacion(),
-                    dtoJugador.getEdad(), dtoJugador.getValorizacion(), dtoJugador.getCalificacion(),
-                    dtoJugador.getFechaInicioTemporada(), dtoJugador.getFechaFinTemporada(),
-                    dtoJugador.getFechaValorizacion(), dtoJugador.getEquipoFutbol(), dtoJugador.getMinutosJugados(),
-                     dtoJugador.getTorneosGanados(), dtoJugador.getGoles());
+             jugador = new Jugador(dtoJugador.getIdJugador(), dtoJugador.getNombre(), dtoJugador.getNumeroIdentificacion(),
+                    dtoJugador.getEdad(), dtoJugador.getValorizacion().replace(".00", ""),
+                    dtoJugador.getCalificacion(), dtoJugador.getFechaInicioTemporada().replaceAll(" 00:00:00.0", ""),
+                    dtoJugador.getFechaFinTemporada().replaceAll(" 00:00:00.0", ""),
+                    dtoJugador.getFechaValorizacion().replaceAll(" 00:00:00.0", ""),
+                    dtoJugador.getEquipoFutbol(), dtoJugador.getMinutosJugados(),
+                    dtoJugador.getTorneoGanados(), dtoJugador.getGoles());
         }else{
             LOGGER.error(NO_EXISTE_JUGADOR);
             throw new ExcepcionNoExiste(NO_EXISTE_JUGADOR);
@@ -106,13 +126,13 @@ public class ServicioCalificarJugador {
 
            Double calificacionActual = jugador.getCalificacion();
            int minutos = historial.getMinutosJugados() + jugador.getMinutosJugados();
-           int torneos = historial.getTorneoGanados() + jugador.getTorneosGanados();
+           int torneos = historial.getTorneoGanados() + jugador.getTorneoGanados();
            int goles = historial.getGoles() + jugador.getGoles();
            calificacionActual = calcularCalificacion(calificacionActual, minutos, torneos, goles);
 
            jugador.setCalificacion(calificacionActual);
            jugador.setMinutosJugados(minutos);
-           jugador.setTorneosGanados(torneos);
+           jugador.setTorneoGanados(torneos);
            jugador.setGoles(goles);
 
             this.repositorioJugador.actualizarCalificacion(jugador);

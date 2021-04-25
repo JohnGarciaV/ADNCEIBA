@@ -35,20 +35,26 @@ public class ServicioCalificarJugadorTest {
         // arrange
         HistorialTestDataBuilder historialTestDataBuilder =
                 new HistorialTestDataBuilder().conIdHistorial(ID_HISTORIAL);
-        Historial historial = historialTestDataBuilder.build();
+        JugadorTestDataBuilder jugadorTestDataBuilder =
+                new JugadorTestDataBuilder().conNumeroIdentificacion(1116587).conMinutosJugados(50)
+                        .conTorneosGanados(1).conGoles(3);
 
+        Historial historial = historialTestDataBuilder.build();
+        Jugador jugador = jugadorTestDataBuilder.build();
         RepositorioHistorial repositorioHistorial = Mockito.mock(RepositorioHistorial.class);
         DaoHistorial daoHistorial = Mockito.mock(DaoHistorial.class);
         DaoJugador daoJugador = Mockito.mock(DaoJugador.class);
         RepositorioJugador repositorioJugador = Mockito.mock(RepositorioJugador.class);
+        List<DtoHistorial> listaEsperada = new ArrayList<>();
 
         //act
+        Mockito.when(daoHistorial.listarPorNumeroDocumento(historial.getNumeroIdentificacion())).thenReturn(listaEsperada);
         ServicioCalificarJugador servicioCalificarJugador = new ServicioCalificarJugador(repositorioHistorial,
                 daoHistorial, daoJugador, repositorioJugador);
 
-        // act - assert
-        BasePrueba.assertThrows(() -> servicioCalificarJugador.existeHistorial(historial), ExcepcionNoExisteDato.class,
-                servicioCalificarJugador.NO_EXISTE_HISTORIAL);
+        //assert
+        assertEquals(3, servicioCalificarJugador.existeHistorial(historial, jugador).getGoles());
+        assertEquals(160, servicioCalificarJugador.existeHistorial(historial, jugador).getMinutosJugados());
     }
 
     @Test
@@ -64,6 +70,10 @@ public class ServicioCalificarJugadorTest {
                 .conMinutosJugados(50);
         DtoHistorial dtoHistorial = historialTestDataBuilderDto.buildDto();
 
+        JugadorTestDataBuilder jugadorTestDataBuilder =
+                new JugadorTestDataBuilder().conNumeroIdentificacion(1116).conMinutosJugados(0)
+                        .conTorneosGanados(0).conGoles(0);
+        Jugador jugador = jugadorTestDataBuilder.build();
         RepositorioHistorial repositorioHistorial = Mockito.mock(RepositorioHistorial.class);
         DaoHistorial daoHistorial = Mockito.mock(DaoHistorial.class);
         DaoJugador daoJugador = Mockito.mock(DaoJugador.class);
@@ -73,12 +83,13 @@ public class ServicioCalificarJugadorTest {
         listaEsperada.add(dtoHistorial);
 
         //act
-        Mockito.when(daoHistorial.listarPorNumeroDocumento(historial.getNumeroIdentificacion())).thenReturn(listaEsperada); //act
+        Mockito.when(daoHistorial.listarPorNumeroDocumento(historial.getNumeroIdentificacion())).thenReturn(listaEsperada);
         ServicioCalificarJugador servicioCalificarJugador = new ServicioCalificarJugador(repositorioHistorial,
                 daoHistorial, daoJugador, repositorioJugador);
 
-        assertEquals(3, servicioCalificarJugador.existeHistorial(historial).getGoles());
-        assertEquals(50, servicioCalificarJugador.existeHistorial(historial).getMinutosJugados());
+        //assert
+        assertEquals(3, servicioCalificarJugador.existeHistorial(historial, jugador).getGoles());
+        assertEquals(50, servicioCalificarJugador.existeHistorial(historial, jugador).getMinutosJugados());
     }
 
     @Test
@@ -184,7 +195,7 @@ public class ServicioCalificarJugadorTest {
 
         assertEquals(5, servicioCalificarJugador.existeJugador(historial).getGoles());
         assertEquals(90, servicioCalificarJugador.existeJugador(historial).getMinutosJugados());
-        assertEquals(1, servicioCalificarJugador.existeJugador(historial).getTorneosGanados());
+        assertEquals(1, servicioCalificarJugador.existeJugador(historial).getTorneoGanados());
     }
 
     @Test
@@ -257,7 +268,6 @@ public class ServicioCalificarJugadorTest {
         // arrange
         HistorialTestDataBuilder historialTestDataBuilder =
                 new HistorialTestDataBuilder().conMinutosJugados(-1).conTorneoGanados(1).conGoles(3);
-
         // act - assert
         BasePrueba.assertThrows(() -> historialTestDataBuilder.build(), ExcepcionValorInvalido.class,
                 NUMERO_NO_POSITIVO);

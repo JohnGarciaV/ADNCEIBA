@@ -18,8 +18,8 @@ import static org.mockito.Mockito.when;
 
 public class ServicioValorizarJugadorTest {
 
-    private static final double VALOR_MAYOR_EDAD = 4000000.0;
-    private static final double VALOR_MENOR_EDAD = 5000000.0;
+    private static final double VALOR_MAYOR_EDAD = 4000000;
+    private static final double VALOR_MENOR_EDAD = 5000000;
 
     @Test
     public void validarExistenciaPreviaTest() {
@@ -27,7 +27,7 @@ public class ServicioValorizarJugadorTest {
         Jugador jugador = new JugadorTestDataBuilder()
                 .conIdJugador(1L)
                 .conNumeroIdentificacion(1116247957)
-                .conFechaValorizacion("2021-05-28")
+                .conFechaValorizacion("2021-03-28")
                 .build();
         RepositorioJugador repositorioJugador = Mockito.mock(RepositorioJugador.class);
 
@@ -84,7 +84,7 @@ public class ServicioValorizarJugadorTest {
                 new JugadorTestDataBuilder()
                         .conFechaInicioTemporada("2021-01-28")
                         .conFechaFinTemporada("2021-06-28")
-                        .conFechaValorizacion("2021-05-28");
+                        .conFechaValorizacion("2021-03-28");
         Jugador jugador = jugadorTestDataBuilder.build();
         when(repositorioJugador.existe(Mockito.anyInt())).thenReturn(true);
 
@@ -104,7 +104,7 @@ public class ServicioValorizarJugadorTest {
                 new JugadorTestDataBuilder()
                         .conFechaInicioTemporada("2021-01-28")
                         .conFechaFinTemporada("2021-07-28")
-                        .conFechaValorizacion("2021-06-28");
+                        .conFechaValorizacion("2021-03-28");
         Jugador jugador = jugadorTestDataBuilder.build();
         when(repositorioJugador.existe(Mockito.anyInt())).thenReturn(true);
 
@@ -146,7 +146,7 @@ public class ServicioValorizarJugadorTest {
         JugadorTestDataBuilder jugadorTestDataBuilder =
                 new JugadorTestDataBuilder().
                         conEdad(21).conMinutosJugados(500).conTorneosGanados(2).conGoles(5).
-                conValorizacion("500000.00");
+                conValorizacion("500000");
 ;       Jugador jugador = jugadorTestDataBuilder.build();
         when(repositorioJugador.existe(Mockito.anyInt())).thenReturn(true);
 

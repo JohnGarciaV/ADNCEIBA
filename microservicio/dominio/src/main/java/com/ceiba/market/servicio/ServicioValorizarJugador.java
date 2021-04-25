@@ -15,7 +15,7 @@ public class ServicioValorizarJugador {
 
     public static final String NO_EXISTE_JUGADOR = "El jugador no existe";
     public static final String TEMPORADA_FINALIZADA = "No está en el rango de la temporada";
-    public static final String NO_VALORIZADO = "No se puede valorizar el jugador en este mes";
+    public static final String NO_VALORIZADO = "No se puede valorizar un jugador más de una vez en el mismo mes";
     private static final String FORMATO_FECHA =  "yyyy-MM-dd";
     private static final double VALOR_MINUTO_JUGADO =  50000;
     private static final double VALOR_GOL = 2000000;
@@ -51,6 +51,8 @@ public class ServicioValorizarJugador {
         LocalDate fechaActual = LocalDate.now();
         DateTimeFormatter formato = DateTimeFormatter.ofPattern(FORMATO_FECHA);
         String formatoFechaActual = formato.format(fechaActual);
+
+
         LocalDate fechaActualFormateada = LocalDate.parse(formatoFechaActual, formato);
         LocalDate fechaInicioTemporada = LocalDate.parse(jugador.getFechaInicioTemporada(), formato);
         LocalDate fechaFinTemporada = LocalDate.parse(jugador.getFechaFinTemporada(), formato);
@@ -68,8 +70,7 @@ public class ServicioValorizarJugador {
         String formatoFechaActual = formato.format(fechaActual);
         LocalDate fechaActualFormateada = LocalDate.parse(formatoFechaActual, formato);
         LocalDate fechaValorizacion = LocalDate.parse(jugador.getFechaValorizacion(), formato);
-
-        if( fechaValorizacion.getMonth().getValue() <= fechaActualFormateada.getMonth().getValue()){
+        if( fechaActualFormateada.getMonth().getValue() <= fechaValorizacion.getMonth().getValue()){
             LOGGER.error(NO_VALORIZADO);
             throw new ExcepcionFechaValorizacion(NO_VALORIZADO);
         }
@@ -82,11 +83,11 @@ public class ServicioValorizarJugador {
         double valorizacion=0;
         double valorMinutos = jugador.getMinutosJugados() * VALOR_MINUTO_JUGADO;
         double valorGol = jugador.getGoles() * VALOR_GOL;
-        double valorTorneos = jugador.getTorneosGanados() * VALOR_TORNEO_GANADO;
+        double valorTorneos = jugador.getTorneoGanados() * VALOR_TORNEO_GANADO;
         double subValorizacion = valorMinutos + valorGol +valorTorneos;
         double valorizacionActual = Double.parseDouble(jugador.getValorizacion());
-
-        valorizacion = subValorizacion + calcularValorizacionPorEdad(jugador.getEdad()) + valorizacionActual;
+        double valorEdad = calcularValorizacionPorEdad(jugador.getEdad());
+        valorizacion = subValorizacion +  valorEdad + valorizacionActual;
         jugador.setFechaValorizacion(formatoFechaActual);
         jugador.setValorizacion(valorizacion+"");
 

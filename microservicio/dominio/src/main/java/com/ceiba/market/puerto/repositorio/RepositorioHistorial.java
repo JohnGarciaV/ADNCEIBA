@@ -2,8 +2,6 @@ package com.ceiba.market.puerto.repositorio;
 
 import com.ceiba.market.modelo.entidad.Historial;
 
-import java.util.List;
-
 public interface RepositorioHistorial {
 
     /**

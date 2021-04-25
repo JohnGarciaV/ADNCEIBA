@@ -8,6 +8,7 @@ import lombok.Getter;
 public class DtoJugador {
 
     private Long idJugador;
+    private String nombre;
     private int numeroIdentificacion;
     private int edad;
     private String valorizacion;
@@ -17,7 +18,7 @@ public class DtoJugador {
     private String fechaValorizacion;
     private String equipoFutbol;
     private int minutosJugados;
-    private int torneosGanados;
+    private int torneoGanados;
     private int goles;
 
 }

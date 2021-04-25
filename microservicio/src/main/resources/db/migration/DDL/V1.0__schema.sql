@@ -1,5 +1,6 @@
 CREATE TABLE jugador (
     id_Jugador int(11) NOT NULL AUTO_INCREMENT,
+    nombre VARCHAR(30),
 	numero_identificacion int(11) NOT NULL,
 	edad int(2) NOT NULL,
 	valorizacion DECIMAL(20,2) NOT NULL,

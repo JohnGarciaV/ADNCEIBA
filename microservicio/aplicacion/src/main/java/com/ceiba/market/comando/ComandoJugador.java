@@ -12,6 +12,7 @@ import lombok.Setter;
 public class ComandoJugador {
 
     private Long idJugador;
+    private String nombre;
     private int numeroIdentificacion;
     private int edad;
     private String valorizacion;
@@ -21,23 +22,24 @@ public class ComandoJugador {
     private String fechaValorizacion;
     private String equipoFutbol;
     private int minutosJugados;
-    private int torneosGanados;
+    private int torneoGanados;
     private int goles;
 
     @Override
     public String toString() {
         return "ComandoJugador{" +
                 "idJugador=" + idJugador +
+                ", nombre='" + nombre + '\'' +
                 ", numeroIdentificacion=" + numeroIdentificacion +
                 ", edad=" + edad +
-                ", valorizacion=" + valorizacion +
+                ", valorizacion='" + valorizacion + '\'' +
                 ", calificacion=" + calificacion +
                 ", fechaInicioTemporada='" + fechaInicioTemporada + '\'' +
                 ", fechaFinTemporada='" + fechaFinTemporada + '\'' +
                 ", fechaValorizacion='" + fechaValorizacion + '\'' +
                 ", equipoFutbol='" + equipoFutbol + '\'' +
                 ", minutosJugados=" + minutosJugados +
-                ", torneosGanados=" + torneosGanados +
+                ", torneosGanados=" + torneoGanados +
                 ", goles=" + goles +
                 '}';
     }
