@@ -79,7 +79,7 @@ public class Jugador {
             LocalDate fechaInicioDate = LocalDate.parse(fechaInicio, formato);
             LocalDate fechaFinDate = LocalDate.parse(fechaFin, formato);
 
-            if (fechaFinDate.isBefore(fechaInicioDate) || fechaFinDate.isBefore(fechaInicioDate) || fechaInicioDate.isEqual(fechaFinDate)) {
+            if (fechaFinDate.isBefore(fechaInicioDate) || fechaInicioDate.isAfter(fechaFinDate) || fechaInicioDate.isEqual(fechaFinDate)) {
                 throw new ExcepcionTemporadaNoValida(FECHA_NO_VALIDA);
             }
         }catch (Exception e){
