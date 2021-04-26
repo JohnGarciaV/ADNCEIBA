@@ -7,4 +7,8 @@ public class ExcepcionValorInvalido extends RuntimeException {
     public ExcepcionValorInvalido(String message) {
         super(message);
     }
+
+    public ExcepcionValorInvalido(String message, Exception exception) {
+        super(message, exception);
+    }
 }

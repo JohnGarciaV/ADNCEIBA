@@ -7,4 +7,8 @@ public class ExcepcionTemporadaNoValida extends RuntimeException {
     public ExcepcionTemporadaNoValida(String message) {
         super(message);
     }
+
+    public ExcepcionTemporadaNoValida(String message, Exception exception) {
+        super(message, exception);
+    }
 }

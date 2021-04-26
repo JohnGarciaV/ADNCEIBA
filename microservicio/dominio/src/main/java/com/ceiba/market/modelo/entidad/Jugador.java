@@ -69,7 +69,7 @@ public class Jugador {
                 throw new ExcepcionValorInvalido(NUMERO_NO_POSITIVO + " : " + valor);
             }
         }catch (Exception e){
-            throw new ExcepcionValorInvalido(NUMERO_NO_POSITIVO + " : " + costo);
+            throw new ExcepcionValorInvalido(NUMERO_NO_POSITIVO + " : " + costo, e);
         }
     }
 
@@ -83,7 +83,7 @@ public class Jugador {
                 throw new ExcepcionTemporadaNoValida(FECHA_NO_VALIDA);
             }
         }catch (Exception e){
-            throw new ExcepcionTemporadaNoValida(FECHA_NO_VALIDA);
+            throw new ExcepcionTemporadaNoValida(FECHA_NO_VALIDA, e);
         }
     }
 }

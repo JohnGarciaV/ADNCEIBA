@@ -27,6 +27,7 @@ public class ServicioCalificarJugador {
     public static final Double VALOR_ITEM = 0.2;
     public static final String FORMATO_FECHA =  "yyyy-MM-dd";
     private static final Logger LOGGER = LoggerFactory.getLogger(ServicioCalificarJugador.class);
+    public static final String FORMATO_ESTANDAR_HORA = " 00:00:00.0";
 
     private final RepositorioHistorial repositorioHistorial;
     private final DaoHistorial daoHistorial;
@@ -92,9 +93,9 @@ public class ServicioCalificarJugador {
         String formatoFechaActual = formato.format(fechaActual);
         LocalDate fechaActualFormateada = LocalDate.parse(formatoFechaActual, formato);
 
-        String ultimaFechaActual = ultimoHistorial.getFechaCalificacion().replaceAll(" 00:00:00.0", "");
+        String ultimaFechaActual = ultimoHistorial.getFechaCalificacion().replaceAll(FORMATO_ESTANDAR_HORA, "");
         LocalDate ultimaCalificacion = LocalDate.parse(ultimaFechaActual, formato);
-        historial.setFechaCalificacion(formatoFechaActual+ " 00:00:00.0");
+        historial.setFechaCalificacion(formatoFechaActual+ FORMATO_ESTANDAR_HORA);
         if (fechaActualFormateada.isEqual(ultimaCalificacion) || fechaActualFormateada.isBefore(ultimaCalificacion)) {
             LOGGER.error(EXISTE_CALIFICACION);
             throw new ExcepcionNoExisteDato(EXISTE_CALIFICACION);
@@ -110,9 +111,9 @@ public class ServicioCalificarJugador {
 
              jugador = new Jugador(dtoJugador.getIdJugador(), dtoJugador.getNombre(), dtoJugador.getNumeroIdentificacion(),
                     dtoJugador.getEdad(), dtoJugador.getValorizacion().replace(".00", ""),
-                    dtoJugador.getCalificacion(), dtoJugador.getFechaInicioTemporada().replaceAll(" 00:00:00.0", ""),
-                    dtoJugador.getFechaFinTemporada().replaceAll(" 00:00:00.0", ""),
-                    dtoJugador.getFechaValorizacion().replaceAll(" 00:00:00.0", ""),
+                    dtoJugador.getCalificacion(), dtoJugador.getFechaInicioTemporada().replaceAll(FORMATO_ESTANDAR_HORA, ""),
+                    dtoJugador.getFechaFinTemporada().replaceAll(FORMATO_ESTANDAR_HORA, ""),
+                    dtoJugador.getFechaValorizacion().replaceAll(FORMATO_ESTANDAR_HORA, ""),
                     dtoJugador.getEquipoFutbol(), dtoJugador.getMinutosJugados(),
                     dtoJugador.getTorneoGanados(), dtoJugador.getGoles());
         }else{
