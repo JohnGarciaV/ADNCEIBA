@@ -25,12 +25,12 @@ public class ManejadorError extends ResponseEntityExceptionHandler {
     public ManejadorError() {
         CODIGOS_ESTADO.put(ExcepcionLongitudValor.class.getSimpleName(), HttpStatus.BAD_REQUEST.value());
         CODIGOS_ESTADO.put(ExcepcionValorInvalido.class.getSimpleName(), HttpStatus.BAD_REQUEST.value());
-        CODIGOS_ESTADO.put(ExcepcionSinDatos.class.getSimpleName(), HttpStatus.NOT_FOUND.value());
+        CODIGOS_ESTADO.put(ExcepcionSinDatos.class.getSimpleName(), HttpStatus.BAD_REQUEST.value());
         CODIGOS_ESTADO.put(ExcepcionValorObligatorio.class.getSimpleName(), HttpStatus.BAD_REQUEST.value());
         CODIGOS_ESTADO.put(ExcepcionDuplicidad.class.getSimpleName(), HttpStatus.BAD_REQUEST.value());
         CODIGOS_ESTADO.put(ExcepcionTecnica.class.getSimpleName(), HttpStatus.INTERNAL_SERVER_ERROR.value());
-        CODIGOS_ESTADO.put(ExcepcionNoExisteDato.class.getSimpleName(), HttpStatus.INTERNAL_SERVER_ERROR.value());
-        CODIGOS_ESTADO.put(ExcepcionNoExiste.class.getSimpleName(), HttpStatus.INTERNAL_SERVER_ERROR.value());
+        CODIGOS_ESTADO.put(ExcepcionNoExisteDato.class.getSimpleName(), HttpStatus.BAD_REQUEST.value());
+        CODIGOS_ESTADO.put(ExcepcionNoExiste.class.getSimpleName(), HttpStatus.BAD_REQUEST.value());
         CODIGOS_ESTADO.put(ExcepcionFechaValorizacion.class.getSimpleName(), HttpStatus.BAD_REQUEST.value());
         CODIGOS_ESTADO.put(ExcepcionTemporadaNoValida.class.getSimpleName(), HttpStatus.BAD_REQUEST.value());
 
